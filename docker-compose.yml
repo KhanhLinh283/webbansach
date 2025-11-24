@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  webbansach:
+    build: .
+    container_name: webbansach_web
+    ports:
+      - "8080:80"
+    volumes:
+      - .:/var/www/html
+    depends_on:
+      - mysql_db
+
+  mysql_db:
+    image: mysql:5.7
+    container_name: webbansach_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: webbansach
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./mysql:/var/lib/mysql
+      - ./webbansach.sql:/docker-entrypoint-initdb.d/webbansach.sql
